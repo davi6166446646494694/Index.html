@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BRASIL PLAY ALPHAN - Formulário Líder</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: 'Courier New', Arial, sans-serif;
+        background: url('SUA-IMAGEM-AQUI.jpg') no-repeat center center fixed;
+        background-size: cover;
+        color: white;
+        overflow-y: auto;
+    }
+
+    .overlay {
+        background: rgba(0,0,0,0.78);
+        min-height: 100vh;
+    }
+
+    /* LOADING */
+    #loading-screen {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(10,10,30,0.98);
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        z-index: 100; transition: opacity 1.5s;
+    }
+    .logo {
+        text-align: center; line-height: 1.05; margin-bottom: 40px;
+    }
+    .logo span {
+        display: block; font-weight: bold; letter-spacing: 6px;
+    }
+    .logo .play   { font-size: 78px; color: #ffffff; text-shadow: 0 0 20px #00ffc8; }
+    .logo .rpg    { font-size: 68px; color: #ff4444;  text-shadow: 0 0 20px #ff4444; }
+    .logo .alphan { font-size: 88px; color: #00ffc8;  text-shadow: 0 0 25px #00ffc8; }
+
+    .progress-bar { width: 480px; height: 14px; background: #1c1c3a; border-radius: 10px; overflow: hidden; }
+    .progress { height: 100%; width: 0%; background: linear-gradient(to right, #00ffc8, #00ff88); transition: width 0.3s; }
+
+    /* LOGIN */
+    #login-screen {
+        display: none; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh;
+    }
+    .login-box {
+        background: rgba(10,10,30,0.95);
+        padding: 50px 60px;
+        border-radius: 20px;
+        border: 2px solid #00ffc8;
+        box-shadow: 0 0 40px rgba(0, 255, 200, 0.6);
+        width: 420px; text-align: center;
+    }
+
+    /* FORMULÁRIO */
+    .container {
+        max-width: 550px;
+        margin: 30px auto;
+        background: rgba(10,10,30,0.92);
+        padding: 30px;
+        border-radius: 18px;
+        box-shadow: 0 0 30px rgba(0,0,0,0.9);
+    }
+
+    input, select, textarea {
+        width: 100%;
+        padding: 13px;
+        margin-bottom: 18px;
+        border-radius: 10px;
+        border: none;
+        background: #1c1c3a;
+        color: white;
+        font-size: 16px;
+    }
+
+    textarea { height: 110px; resize: vertical; }
+
+    button {
+        width: 100%;
+        padding: 16px;
+        border: none;
+        border-radius: 12px;
+        font-weight: bold;
+        margin: 20px 0 10px;
+        cursor: pointer;
+        font-size: 17px;
+    }
+    .copy { background: linear-gradient(45deg, gold, orange); color: black; }
+
+    .instrucao {
+        background: linear-gradient(45deg, #00c853, #00ff88);
+        color: black;
+        padding: 18px;
+        border-radius: 12px;
+        text-align: center;
+        font-size: 16px;
+        font-weight: bold;
+        margin-top: 15px;
+    }
+
+    .alerta {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #00c853;
+        padding: 15px 25px;
+        border-radius: 10px;
+        display: none;
+        z-index: 200;
+        font-weight: bold;
+    }
+
+    h2 { color: #00ffc8; text-align: center; margin-bottom: 25px; }
+</style>
+</head>
+
+<body>
+
+<!-- LOADING -->
+<div id="loading-screen">
+    <div class="logo">
+        <span class="play">PLAY</span>
+        <span class="rpg">RPG</span>
+        <span class="alphan">ALPHAN</span>
+    </div>
+    <div class="progress-bar">
+        <div class="progress" id="progress"></div>
+    </div>
+    <div style="margin-top:12px; color:#88ffdd;" id="status">CARREGANDO SISTEMA...</div>
+</div>
+
+<!-- LOGIN -->
+<div id="login-screen">
+    <div class="login-box">
+        <h2>🔐 ACESSO RESTRITO</h2>
+        <div style="color:#88ffdd; margin-bottom:30px;">BRASIL PLAY ALPHAN • SELEÇÃO DE LÍDER</div>
+        <input type="text" id="username" placeholder="Nome de Usuário">
+        <input type="password" id="password" placeholder="Senha de Acesso">
+        <button onclick="irParaFormulario()" style="background: linear-gradient(#00ffc8, #00ccaa); color:black;">ENTRAR NO SISTEMA</button>
+    </div>
+</div>
+
+<!-- FORMULÁRIO DE LÍDER -->
+<div class="overlay" id="form-screen" style="display:none;">
+    <div style="text-align:center; padding:25px 0; font-size:28px; color:#00ffc8; font-weight:bold;">
+        👑 BRASIL PLAY ALPHAN - FORMULÁRIO LÍDER
+    </div>
+
+    <div class="container">
+        <h2>📩 FORMULÁRIO OFICIAL DE LÍDER</h2>
+
+        <input type="text" id="nome" placeholder="1. Nome">
+        <input type="number" id="idade" placeholder="2. Idade">
+        <input type="text" id="org" placeholder="3. Organização / Facção">
+        <input type="text" id="experiencia" placeholder="4. Experiência como líder">
+        <input type="text" id="tempoDia" placeholder="5. Tempo online por dia">
+
+        <textarea id="escolha" placeholder="6. Por que você deve ser escolhido como líder?"></textarea>
+        <textarea id="briga" placeholder="7. Se membros da equipe brigarem, o que você faria?"></textarea>
+        <textarea id="desobediente" placeholder="8. Como você lida com membros desobedientes?"></textarea>
+
+        <textarea id="liderancaReal" placeholder="9. O que é liderança para você?"></textarea>
+        <textarea id="pressao" placeholder="10. Como você reage sob pressão?"></textarea>
+        <textarea id="erro" placeholder="11. Se você errar como líder, como vai resolver?"></textarea>
+        <textarea id="atividade" placeholder="12. Como manter a equipe ativa e motivada?"></textarea>
+        <textarea id="punicao" placeholder="13. Quando você acha que deve punir alguém?"></textarea>
+        <textarea id="confianca" placeholder="14. Como você ganha a confiança da equipe?"></textarea>
+        <textarea id="liderRuim" placeholder="15. O que um líder NUNCA pode fazer?"></textarea>
+        <textarea id="melhoria" placeholder="16. Quais melhorias você traria pro servidor?"></textarea>
+        <textarea id="motivacao" placeholder="17. Qual sua motivação para ser líder?"></textarea>
+        <textarea id="tempoServidor" placeholder="18. Há quanto tempo você está no servidor?"></textarea>
+
+        <select id="equipe">
+            <option value="">19. Você trabalha bem em equipe?</option>
+            <option>Sim</option>
+            <option>Não</option>
+        </select>
+
+        <select id="ativo">
+            <option value="">20. Você é ativo no servidor?</option>
+            <option>Sim</option>
+            <option>Não</option>
+        </select>
+
+        <select id="lideranca">
+            <option value="">21. Você tem perfil de liderança?</option>
+            <option>Sim</option>
+            <option>Mais ou menos</option>
+            <option>Não</option>
+        </select>
+
+        <select id="liderAntes">
+            <option value="">22. Já foi líder em algum servidor?</option>
+            <option>Sim</option>
+            <option>Não</option>
+        </select>
+
+        <select id="regras">
+            <option value="">23. Você conhece bem as regras do servidor?</option>
+            <option>Sim</option>
+            <option>Não</option>
+        </select>
+
+        <input type="text" id="discord" placeholder="24. Seu Discord (com tag)">
+
+        <button class="copy" onclick="copiar()">📋 COPIAR FORMULÁRIO</button>
+
+        <!-- Instrução clara que você pediu -->
+        <div class="instrucao">
+            ✅ Copie o formulário clicando no botão acima<br><br>
+            Depois cole no Discord do <strong>@Grok</strong><br>
+            <span style="font-size:15px;">Será avaliado em até 24 horas.</span>
+        </div>
+    </div>
+
+    <div class="alerta" id="alertaMsg"></div>
+</div>
+
+<script>
+// LOADING
+let progress = 0;
+const progressBar = document.getElementById('progress');
+const statusText = document.getElementById('status');
+const loadingScreen = document.getElementById('loading-screen');
+
+const loadingInterval = setInterval(() => {
+    progress += Math.random() * 4 + 3;
+    if (progress > 100) progress = 100;
+    progressBar.style.width = progress + '%';
+
+    if (progress > 40) statusText.textContent = "VERIFICANDO INTEGRIDADE...";
+    if (progress > 70) statusText.textContent = "CARREGANDO DADOS DE LÍDERES...";
+
+    if (progress >= 100) {
+        clearInterval(loadingInterval);
+        loadingScreen.style.opacity = '0';
+        setTimeout(() => {
+            loadingScreen.style.display = 'none';
+            document.getElementById('login-screen').style.display = 'flex';
+        }, 1200);
+    }
+}, 160);
+
+// LOGIN
+function irParaFormulario() {
+    const user = document.getElementById('username').value.trim();
+    const pass = document.getElementById('password').value.trim();
+    if (!user || !pass) {
+        alert("❌ Preencha nome de usuário e senha!");
+        return;
+    }
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('form-screen').style.display = 'block';
+}
+
+// COPIAR FORMULÁRIO
+function copiar() {
+    let texto = `══════════════════════════
+👑 FORMULÁRIO OFICIAL DE LÍDER
+BRASIL PLAY ALPHAN
+══════════════════════════\n\n`;
+
+    texto += `1. Nome: ${document.getElementById('nome').value || 'Não informado'}\n`;
+    texto += `2. Idade: ${document.getElementById('idade').value || 'Não informado'}\n`;
+    texto += `3. Organização / Facção: ${document.getElementById('org').value || 'Não informado'}\n`;
+    texto += `4. Experiência como líder: ${document.getElementById('experiencia').value || 'Não informado'}\n`;
+    texto += `5. Tempo online por dia: ${document.getElementById('tempoDia').value || 'Não informado'}\n\n`;
+
+    texto += `6. Por que deve ser escolhido:\n${document.getElementById('escolha').value || 'Não respondido'}\n\n`;
+    texto += `7. Se membros brigarem:\n${document.getElementById('briga').value || 'Não respondido'}\n\n`;
+    texto += `8. Como lida com desobedientes:\n${document.getElementById('desobediente').value || 'Não respondido'}\n\n`;
+
+    texto += `9. O que é liderança:\n${document.getElementById('liderancaReal').value || 'Não respondido'}\n\n`;
+    texto += `10. Como reage sob pressão:\n${document.getElementById('pressao').value || 'Não respondido'}\n\n`;
+    texto += `11. Se errar como líder:\n${document.getElementById('erro').value || 'Não respondido'}\n\n`;
+    texto += `12. Como manter a equipe ativa:\n${document.getElementById('atividade').value || 'Não respondido'}\n\n`;
+    texto += `13. Quando punir alguém:\n${document.getElementById('punicao').value || 'Não respondido'}\n\n`;
+    texto += `14. Como ganha confiança:\n${document.getElementById('confianca').value || 'Não respondido'}\n\n`;
+    texto += `15. O que líder NUNCA pode fazer:\n${document.getElementById('liderRuim').value || 'Não respondido'}\n\n`;
+    texto += `16. Melhorias no servidor:\n${document.getElementById('melhoria').value || 'Não respondido'}\n\n`;
+    texto += `17. Motivação:\n${document.getElementById('motivacao').value || 'Não respondido'}\n\n`;
+    texto += `18. Tempo no servidor:\n${document.getElementById('tempoServidor').value || 'Não respondido'}\n\n`;
+
+    texto += `19. Trabalha em equipe: ${document.getElementById('equipe').value || 'Não informado'}\n`;
+    texto += `20. Ativo: ${document.getElementById('ativo').value || 'Não informado'}\n`;
+    texto += `21. Perfil de liderança: ${document.getElementById('lideranca').value || 'Não informado'}\n`;
+    texto += `22. Já foi líder: ${document.getElementById('liderAntes').value || 'Não informado'}\n`;
+    texto += `23. Conhece as regras: ${document.getElementById('regras').value || 'Não informado'}\n`;
+    texto += `24. Discord: ${document.getElementById('discord').value || 'Não informado'}\n\n`;
+
+    texto += `══════════════════════════\n✅ FORMULÁRIO FINALIZADO\n══════════════════════════`;
+
+    navigator.clipboard.writeText(texto).then(() => {
+        mostrarAlerta("✅ Formulário de LÍDER copiado com sucesso!\nAgora cole no Discord do @Grok");
+    }).catch(() => {
+        // Fallback para celular
+        let area = document.createElement("textarea");
+        area.value = texto;
+        document.body.appendChild(area);
+        area.select();
+        document.execCommand("copy");
+        document.body.removeChild(area);
+        mostrarAlerta("✅ Copiado! Agora cole no Discord do @Grok");
+    });
+}
+
+function mostrarAlerta(msg) {
+    let alerta = document.getElementById("alertaMsg");
+    alerta.innerText = msg;
+    alerta.style.display = "block";
+    setTimeout(() => { alerta.style.display = "none"; }, 5000);
+}
+</script>
+
+</body>
+      </html>
